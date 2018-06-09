@@ -5,11 +5,10 @@ import base.GameObjectManager;
 import base.Vector2D;
 import game.enemy.Enemy;
 import physic.BoxCollider;
+import physic.PhysicBody;
 import renderer.ImageRenderer;
 
-import java.awt.*;
-
-public class Bullet extends GameObject {
+public class Bullet extends GameObject implements PhysicBody {
     public Vector2D velocity;
     public BoxCollider boxCollider;
 
@@ -24,11 +23,19 @@ public class Bullet extends GameObject {
         super.run();
         this.position.addUp(this.velocity);
         this.boxCollider.position.set(this.position.x - 3, this.position.y - 3);
-        Enemy enemy = GameObjectManager.instance.checkCollision(this);
+        Enemy enemy = GameObjectManager.instance.checkCollision(this.boxCollider, Enemy.class);
         if (enemy != null) {
-            enemy.isAlive = false;
-            this.isAlive = false;
-            System.out.println("hit");
+            this.getHit();
+            enemy.getHit();
         }
+    }
+
+    public void getHit() {
+        this.isAlive = false;
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
     }
 }

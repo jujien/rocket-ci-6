@@ -4,6 +4,7 @@ import game.bullet.Bullet;
 import game.enemy.Enemy;
 import game.player.Player;
 import physic.BoxCollider;
+import physic.PhysicBody;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class GameObjectManager {
     private GameObjectManager() {
         this.list = new ArrayList<>();
         this.tempList = new ArrayList<>();
+
     }
 
     public void add(GameObject gameObject) {
@@ -49,14 +51,16 @@ public class GameObjectManager {
                 .orElse(null);
     }
 
-    public Enemy checkCollision(Bullet bullet) {
-        return (Enemy) this.list
+
+    public <T extends GameObject> T checkCollision(BoxCollider boxCollider, Class<T> cls) {
+        return (T) this.list
                 .stream()
                 .filter(gameObject -> gameObject.isAlive)
-                .filter(gameObject -> gameObject instanceof Enemy)
+                .filter(gameObject -> cls.isInstance(gameObject))
+                .filter(gameObject -> gameObject instanceof PhysicBody)
                 .filter(gameObject -> {
-                    BoxCollider other = ((Enemy) gameObject).boxCollider;
-                    return bullet.boxCollider.checkBoxCollider(other);
+                    BoxCollider other = ((PhysicBody)gameObject).getBoxCollider();
+                    return boxCollider.checkBoxCollider(other);
                 })
                 .findFirst()
                 .orElse(null);
