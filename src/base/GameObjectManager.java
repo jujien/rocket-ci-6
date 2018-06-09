@@ -1,7 +1,5 @@
 package base;
 
-import game.bullet.Bullet;
-import game.enemy.Enemy;
 import game.player.Player;
 import physic.BoxCollider;
 import physic.PhysicBody;
@@ -64,5 +62,25 @@ public class GameObjectManager {
                 })
                 .findFirst()
                 .orElse(null);
+    }
+
+    public <T extends GameObject> T recycle(Class<T> cls) {
+        T object = (T) this.list
+                .stream()
+                .filter(gameObject -> !gameObject.isAlive)
+                .filter(gameObject -> cls.isInstance(gameObject))
+                .findFirst()
+                .orElse(null);
+        if (object != null) {
+            object.isAlive = true;
+        } else {
+            try {
+                object = cls.newInstance();
+                this.add(object);
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return object;
     }
 }
