@@ -1,4 +1,4 @@
-package game.star;
+package game.effect;
 
 import base.GameObject;
 import base.Vector2D;
@@ -6,18 +6,18 @@ import renderer.ImageRenderer;
 
 import java.awt.*;
 
-public class Star extends GameObject {
+public class Smoke extends GameObject {
+
     public Vector2D velocity;
 
-    public Star() {
+    public Smoke() {
+        this.renderer = new ImageRenderer("resources/images/circle.png", 15, 15, Color.CYAN);
         this.velocity = new Vector2D();
-        this.renderer = new ImageRenderer("resources/images/star.png", 5, 5, Color.WHITE);
     }
 
     @Override
     public void run() {
         super.run();
-        this.position.addUp(this.velocity);
+        this.position.subtractBy(this.velocity);
     }
-
 }

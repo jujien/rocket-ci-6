@@ -15,17 +15,15 @@ public class PlayerShoot {
     public PlayerShoot() {
         this.frameCounter = new FrameCounter(20);
         this.tripleShoot = new TripleShoot();
-        this.shoot = this.singleShoot;
+        this.shoot = this.tripleShoot;
     }
 
     public void run(Player player) {
         if (KeyboardInput.instance.spacePressed) {
-            System.out.println("shoot");
-            this.shoot.shoot(player);
-//            if (this.frameCounter.run()) {
-//
-//                this.frameCounter.reset();
-//            }
+            if (this.frameCounter.run()) {
+                this.shoot.shoot(player);
+                this.frameCounter.reset();
+            }
         }
 
     }

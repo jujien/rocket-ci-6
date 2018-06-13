@@ -1,8 +1,12 @@
 package game.player;
 
+import base.FrameCounter;
 import base.GameObject;
+import base.GameObjectManager;
 import base.Vector2D;
+import game.bullet.Bullet;
 import game.effect.ShieldEffect;
+import game.effect.Smoke;
 import physic.RunHitObject;
 import renderer.PolygonRenderer;
 
@@ -12,6 +16,7 @@ public class Player extends GameObject {
     public PlayerMove playerMove;
     public PlayerShoot playerShoot;
     private RunHitObject runHitObject;
+    private FrameCounter frameCounter = new FrameCounter(10);
 
     public Player() {
         this.position = new Vector2D();
@@ -23,9 +28,9 @@ public class Player extends GameObject {
         );
         this.playerMove = new PlayerMove();
         this.playerShoot = new PlayerShoot();
-        this.runHitObject = new RunHitObject(
-                ShieldEffect.class
-        );
+//        this.runHitObject = new RunHitObject(
+//                ShieldEffect.class
+//        );
     }
 
     @Override
@@ -34,5 +39,20 @@ public class Player extends GameObject {
         this.playerMove.run(this);
         this.playerShoot.run(this);
         ((PolygonRenderer) this.renderer).angle = this.playerMove.angle;
+        this.createSmoke();
+    }
+
+    private void createSmoke() {
+        if (this.frameCounter.run()) {
+            Smoke smoke = GameObjectManager.instance.recycle(Smoke.class);
+            smoke.position.set(position);
+
+            Vector2D rotate = this.playerMove.velocity.add(
+                    (new Vector2D(1.5f, 0)).rotate(this.playerMove.angle)
+            );
+
+            smoke.velocity.set(rotate);
+            this.frameCounter.reset();
+        }
     }
 }

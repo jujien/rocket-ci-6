@@ -14,10 +14,17 @@ public class ImageRenderer implements Renderer {
     private int width;
     private int height;
 
-    public ImageRenderer(String path, int width, int height) {
+    public ImageRenderer(String path, int width, int height, Color color) {
         this.width = width;
         this.height = height;
         this.image = this.loadImage(path);
+        for (int i = 0; i < this.image.getWidth(); i++) {
+            for (int j = 0; j < this.image.getHeight(); j++) {
+                if (this.image.getRGB(i, j) == Color.WHITE.getRGB()) {
+                    this.image.setRGB(i, j, color.getRGB());
+                }
+            }
+        }
     }
 
     @Override
