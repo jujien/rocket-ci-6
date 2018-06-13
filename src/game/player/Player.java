@@ -8,6 +8,7 @@ import game.bullet.Bullet;
 import game.effect.ShieldEffect;
 import game.effect.Smoke;
 import physic.RunHitObject;
+import renderer.ImageRenderer;
 import renderer.PolygonRenderer;
 
 import java.awt.*;
@@ -45,6 +46,7 @@ public class Player extends GameObject {
     private void createSmoke() {
         if (this.frameCounter.run()) {
             Smoke smoke = GameObjectManager.instance.recycle(Smoke.class);
+            smoke.renderer = new ImageRenderer("resources/images/circle.png", 15, 15, Color.CYAN);
             smoke.position.set(position);
 
             Vector2D rotate = this.playerMove.velocity.add(
