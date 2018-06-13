@@ -2,6 +2,8 @@ package game.player;
 
 import base.GameObject;
 import base.Vector2D;
+import game.effect.ShieldEffect;
+import physic.RunHitObject;
 import renderer.PolygonRenderer;
 
 import java.awt.*;
@@ -9,6 +11,7 @@ import java.awt.*;
 public class Player extends GameObject {
     public PlayerMove playerMove;
     public PlayerShoot playerShoot;
+    private RunHitObject runHitObject;
 
     public Player() {
         this.position = new Vector2D();
@@ -20,6 +23,9 @@ public class Player extends GameObject {
         );
         this.playerMove = new PlayerMove();
         this.playerShoot = new PlayerShoot();
+        this.runHitObject = new RunHitObject(
+                ShieldEffect.class
+        );
     }
 
     @Override
