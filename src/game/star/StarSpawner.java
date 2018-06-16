@@ -37,8 +37,24 @@ public class StarSpawner extends GameObject {
 //
 //        this.addAction(repeatAction);
 
+//        this.addAction(
+//                new RepeatActionForever(
+//                        new SequenceAction(
+//                                new WaitAction(30),
+//                                new ActionAdapter() {
+//                                    @Override
+//                                    public boolean run(GameObject owner) {
+//                                        Star star = GameObjectManager.instance.recycle(Star.class);
+//                                        star.position.set(1024, random.nextInt(600));
+//                                        star.velocity.set(-(random.nextInt(3) + 1), 0);
+//                                        return true;
+//                                    }
+//                                }
+//                        )
+//                )
+//        );
         this.addAction(
-                new RepeatActionForever(
+                new LimitAction(
                         new SequenceAction(
                                 new WaitAction(30),
                                 new ActionAdapter() {
@@ -50,7 +66,8 @@ public class StarSpawner extends GameObject {
                                         return true;
                                     }
                                 }
-                        )
+                        ),
+                        10
                 )
         );
     }
