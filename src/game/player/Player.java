@@ -1,5 +1,6 @@
 package game.player;
 
+import action.ActionAdapter;
 import base.FrameCounter;
 import base.GameObject;
 import base.GameObjectManager;
@@ -32,6 +33,12 @@ public class Player extends GameObject {
 //        this.runHitObject = new RunHitObject(
 //                ShieldEffect.class
 //        );
+        ActionAdapter actionAdapter = new ActionAdapter() {
+            @Override
+            public boolean run(GameObject owner) {
+                return false;
+            }
+        };
     }
 
     @Override
