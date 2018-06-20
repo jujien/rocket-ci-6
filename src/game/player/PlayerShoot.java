@@ -20,8 +20,9 @@ public class PlayerShoot {
 
     public void run(Player player) {
         if (KeyboardInput.instance.spacePressed) {
+            this.shoot.shoot(player);
             if (this.frameCounter.run()) {
-                this.shoot.shoot(player);
+
                 this.frameCounter.reset();
             }
         }
