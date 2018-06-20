@@ -5,6 +5,7 @@ import base.FrameCounter;
 import base.GameObject;
 import base.GameObjectManager;
 import base.Vector2D;
+import constant.Constant;
 import game.bullet.Bullet;
 import game.effect.ShieldEffect;
 import game.effect.Smoke;
@@ -30,9 +31,7 @@ public class Player extends GameObject implements PhysicBody {
         this.position = new Vector2D();
         this.renderer = new PolygonRenderer(
                 Color.RED,
-                new Vector2D(),
-                new Vector2D(0, 16),
-                new Vector2D(20, 8)
+                Constant.Player.VERTICES
         );
         this.playerMove = new PlayerMove();
         this.playerShoot = new PlayerShoot();
