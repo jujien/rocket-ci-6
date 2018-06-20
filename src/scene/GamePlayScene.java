@@ -2,6 +2,7 @@ package scene;
 
 import base.GameObject;
 import base.GameObjectManager;
+import game.Demo;
 import game.background.Background;
 import game.enemy.EnemySpawner;
 import game.player.Player;
@@ -17,7 +18,7 @@ public class GamePlayScene implements Scene {
     @Override
     public void init() {
         this.setupCharacter();
-
+        GameObjectManager.instance.recycle(Demo.class);
         this.clip = Utils.loadAudio("resources/audio/shot.wav");
 
 //        this.clip.loop(-1);
