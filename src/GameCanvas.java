@@ -4,6 +4,7 @@ import game.enemy.EnemySpawner;
 import game.player.Player;
 import game.star.StarSpawner;
 import input.KeyboardInput;
+import input.MouseInput;
 import scene.GamePlayScene;
 import scene.SceneManager;
 
@@ -47,6 +48,7 @@ public class GameCanvas extends JPanel {
     public void runAll() {
         GameObjectManager.instance.runAll();
         KeyboardInput.instance.reset();
+        MouseInput.instance.reset();
         SceneManager.instance.performChangeSceneIfNeeded();
     }
 }

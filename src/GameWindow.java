@@ -1,4 +1,5 @@
 import input.KeyboardInput;
+import input.MouseInput;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -26,6 +27,7 @@ public class GameWindow extends JFrame {
     private void event() {
         this.keyboardEvent();
         this.windowEvent();
+        this.mouseEvent();
     }
 
     private void keyboardEvent() {
@@ -39,6 +41,10 @@ public class GameWindow extends JFrame {
                 System.exit(1);
             }
         });
+    }
+
+    private void mouseEvent() {
+        this.addMouseListener(MouseInput.instance);
     }
 
     public void gameLoop() {

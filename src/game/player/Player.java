@@ -8,16 +8,22 @@ import base.Vector2D;
 import game.bullet.Bullet;
 import game.effect.ShieldEffect;
 import game.effect.Smoke;
+import game.enemy.Enemy;
+import physic.BoxCollider;
+import physic.PhysicBody;
 import physic.RunHitObject;
 import renderer.ImageRenderer;
 import renderer.PolygonRenderer;
+import scene.GameOverScene;
+import scene.SceneManager;
 
 import java.awt.*;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements PhysicBody {
     public PlayerMove playerMove;
     public PlayerShoot playerShoot;
     private RunHitObject runHitObject;
+    private BoxCollider boxCollider;
     private FrameCounter frameCounter = new FrameCounter(10);
 
     public Player() {
@@ -30,9 +36,10 @@ public class Player extends GameObject {
         );
         this.playerMove = new PlayerMove();
         this.playerShoot = new PlayerShoot();
-//        this.runHitObject = new RunHitObject(
-//                ShieldEffect.class
-//        );
+        this.boxCollider = new BoxCollider(20, 16);
+        this.runHitObject = new RunHitObject(
+                Enemy.class
+        );
         ActionAdapter actionAdapter = new ActionAdapter() {
             @Override
             public boolean run(GameObject owner) {
@@ -48,6 +55,8 @@ public class Player extends GameObject {
         this.playerShoot.run(this);
         ((PolygonRenderer) this.renderer).angle = this.playerMove.angle;
         this.createSmoke();
+        this.boxCollider.position.set(this.position);
+        this.runHitObject.run(this);
     }
 
     private void createSmoke() {
@@ -63,5 +72,17 @@ public class Player extends GameObject {
             smoke.velocity.set(rotate);
             this.frameCounter.reset();
         }
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
+    }
+
+    @Override
+    public void getHit(GameObject gameObject) {
+        this.isAlive = false;
+
+        SceneManager.instance.changeScene(new GameOverScene());
     }
 }
