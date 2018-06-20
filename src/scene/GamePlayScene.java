@@ -6,16 +6,28 @@ import game.background.Background;
 import game.enemy.EnemySpawner;
 import game.player.Player;
 import game.star.StarSpawner;
+import utils.Utils;
+
+import javax.sound.sampled.Clip;
 
 public class GamePlayScene implements Scene {
+
+    private Clip clip;
+
     @Override
     public void init() {
         this.setupCharacter();
+
+        this.clip = Utils.loadAudio("resources/audio/shot.wav");
+
+//        this.clip.loop(-1);
+//        this.clip.start();
     }
 
     @Override
     public void deinit() {
         GameObjectManager.instance.clear();
+        this.clip.stop();
     }
 
     private void setupCharacter() {
