@@ -4,6 +4,8 @@ import game.enemy.EnemySpawner;
 import game.player.Player;
 import game.star.StarSpawner;
 import input.KeyboardInput;
+import scene.GamePlayScene;
+import scene.SceneManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +20,8 @@ public class GameCanvas extends JPanel {
     public GameCanvas() {
         this.setSize(1024, 600);
         this.setupBackBuffered();
-        this.setupCharacter();
+
+        SceneManager.instance.changeScene(new GamePlayScene());
 
         this.setVisible(true);
     }
@@ -28,19 +31,7 @@ public class GameCanvas extends JPanel {
         this.graphics = this.backBuffered.getGraphics();
     }
 
-    private void setupCharacter() {
-        GameObjectManager.instance.add(new Background());
-        this.setupPlayer();
-        GameObjectManager.instance.add(new StarSpawner());
-        GameObjectManager.instance.add(new EnemySpawner());
-    }
 
-    private void setupPlayer() {
-        this.player = new Player();
-        this.player.position.set(500, 300);
-        this.player.playerMove.velocity.set(4, 0);
-        GameObjectManager.instance.add(this.player);
-    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -56,5 +47,6 @@ public class GameCanvas extends JPanel {
     public void runAll() {
         GameObjectManager.instance.runAll();
         KeyboardInput.instance.reset();
+        SceneManager.instance.performChangeSceneIfNeeded();
     }
 }

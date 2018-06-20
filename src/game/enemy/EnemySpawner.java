@@ -34,7 +34,7 @@ public class EnemySpawner extends GameObject {
                             @Override
                             public boolean run(GameObject owner) {
                                 if (list.isEmpty()) {
-                                    
+
                                     Enemy enemy = GameObjectManager.instance.recycle(Enemy.class);
                                     enemy.position.set(random.nextInt(1024), random.nextInt(600));
                                     this.count += 1;
